@@ -1,0 +1,27 @@
+int quadraticEcuation(double a, double b, double c){
+	double d,x1,x2;
+
+
+	d = b*b-4*a*c;
+	if (a==0){
+	        	cout << "Ошибка, деление на 0";
+	        	return 1;
+		};
+	if (d>0){
+			x1 = ((-b) + sqrt(d)) / (2*a);
+			x2 = ((-b) - sqrt(d)) / (2*a);
+			cout << "x1 =" << x1 << "\n";
+			cout << "x2 =" << x2 << "\n";
+		};
+
+	if (d==0){
+			x1 = -(b/(2*a));
+			cout << "x1 = x2 = " << x1 << "\n";
+		};
+
+	if (d<0){
+			cout << "D<0, корней не существует";
+		};
+
+	return 0;
+}
