@@ -3,33 +3,29 @@
 
 #include "quad_eq.hpp"
 
-void SolveQuadEq()
+ std::pair<double, double> SolveQuadEq(double a, double b, double c)
 {
-	std::cout << "Programme for solving quadratic equations in the form: ax^2 + bx + c = 0\n"
-				 << "Enter the coefficients a, b and c: ";
-
-	double a = 0., b = 0., c = 0.;
-
-	std::cin >> a >> b >> c;
-
 	//Дискриминант
-	double d = (b * b) - (4 * a * c);
+	const double d = (b * b) - (4 * a * c);
+	const double root = sqrt(d);
 
-	if (d > 0)
+	std::pair<double, double> result;
+
+	if (d > 0.)
 	{
-		double x1 = (b * -1) + sqrt(d) / (2 * a);
-		double x2 = (b * -1) - sqrt(d) / (2 * a);
+		const double x1 = (-b + root) / (2 * a);
+		const double x2 = (-b - root) / (2 * a);
 
-		std::cout << "Roots of equation: x1 = " << x1 << " | x2 = " << x2;
+		return result = {x1, x2};
 	}
-	else if (d == 0)
+	else if (std::fabs(d - 0.0) < std::numeric_limits<double>::epsilon())
 	{
-		double x = (b * -1) / (2 * a);
+		const double x = -b / (2 * a);
 
-		std::cout << "Roots of equation: x1 = x2 = " << x;
+		return result = {x, x};
 	}
 	else
 	{
-		std::cout << "No solutions for this equation.\n";
+		return result = {INFINITY, INFINITY};
 	}
 }
