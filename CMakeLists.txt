@@ -1,4 +1,15 @@
 cmake_minimum_required(VERSION 2.8)
-add_library(quadraticEcuation quadraticEcuation.cpp)
-add_executable(main main.cpp)
-target_link_libraries(main quadraticEcuation)
+PROJECT(QuadEqProject)
+
+file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/QuadEq)
+set(Export_App_Target ${CMAKE_CURRENT_BINARY_DIR}/QuadEq)
+
+set(APP_SOURCE quadraticEquation.cpp)
+
+set(APP_HEADER quadraticEquation.hpp)
+
+add_executable(QuadEq 
+			${APP_SOURCE}
+			${APP_HEADER})
+
+set(EXECUTABLE_OUTPUT_PATH ${Export_App_Target})
