@@ -3,29 +3,56 @@
 
 #include "quad_eq.hpp"
 
- std::pair<double, double> SolveQuadEq(double a, double b, double c)
+ EQStatus SolveQuadEq(std::array<double, 3> input)
 {
-	//Дискриминант
-	const double d = (b * b) - (4 * a * c);
-	const double root = sqrt(d);
+	 EQStatus equationStatus{ none, (0, 0) };
+	 const double a = input[0], b = input[1], c = input[2];
 
-	std::pair<double, double> result;
-
-	if (d > 0.)
+	if (std::fabs(a - 0.0) < std::numeric_limits<double>::epsilon())
 	{
-		const double x1 = (-b + root) / (2 * a);
-		const double x2 = (-b - root) / (2 * a);
+		if (std::fabs(b - 0.0) < std::numeric_limits<double>::epsilon())
+			if (std::fabs(c - 0.0) < std::numeric_limits<double>::epsilon())
+				equationStatus.solState = any;
+			else
+				equationStatus.solState = none;
+		else
+		{
+			if (std::fabs(c - 0.0) < std::numeric_limits<double>::epsilon())
+			{
+				equationStatus.solState = same;
+				equationStatus.solution[0] = equationStatus.solution[1] = 0;
+			}
+			else
+			{
+				const double x = -b / c;
+				equationStatus.solState = same;
+				equationStatus.solution[0] = equationStatus.solution[1] = x;
+			}
+		}
 
-		return result = {x1, x2};
+		return equationStatus;
+	}
+
+	// Дискриминант
+	const double d = (b * b) - (4.0 * a * c);
+
+	if (d > 0.0)
+	{
+		const double root = sqrt(d);
+		const double x1 = (-b + root) / (2.0 * a);
+		const double x2 = (-b - root) / (2.0 * a);
+
+		equationStatus.solState = two;
+		equationStatus.solution[0] = x1;
+		equationStatus.solution[1] = x2;
 	}
 	else if (std::fabs(d - 0.0) < std::numeric_limits<double>::epsilon())
 	{
-		const double x = -b / (2 * a);
+		const double x = -b / (2.0 * a);
 
-		return result = {x, x};
+		equationStatus.solState = same;
+		equationStatus.solution[0] = equationStatus.solution[1] = x;
 	}
-	else
-	{
-		return result = {INFINITY, INFINITY};
-	}
+
+	return equationStatus;
 }
