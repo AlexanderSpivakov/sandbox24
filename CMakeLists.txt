@@ -4,7 +4,9 @@ PROJECT(QuadEqProject)
 file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/QuadEq)
 set(Export_App_Target ${CMAKE_CURRENT_BINARY_DIR}/QuadEq)
 
-set(APP_SOURCE quadraticEquation.cpp)
+set(APP_SOURCE 
+	main.cpp
+	quadraticEquation.cpp)
 
 set(APP_HEADER quadraticEquation.hpp)
 
