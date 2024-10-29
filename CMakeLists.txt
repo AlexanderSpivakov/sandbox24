@@ -1,96 +1,98 @@
 cmake_minimum_required(VERSION 3.10.2)
 PROJECT(hello_world_project)
 
-#Сборка библиотеки
-#Создаю директорию для хранения библиотеки на выходе
+#РЎР±РѕСЂРєР° Р±РёР±Р»РёРѕС‚РµРєРё
+#РЎРѕР·РґР°СЋ РґРёСЂРµРєС‚РѕСЂРёСЋ РґР»СЏ С…СЂР°РЅРµРЅРёСЏ Р±РёР±Р»РёРѕС‚РµРєРё РЅР° РІС‹С…РѕРґРµ
 file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/library)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY  ${CMAKE_CURRENT_BINARY_DIR}/library)
-
-#Добавил заголовочные файлы
+if(MSVC)
+    set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /MT")
+endif()
+#Р”РѕР±Р°РІРёР» Р·Р°РіРѕР»РѕРІРѕС‡РЅС‹Рµ С„Р°Р№Р»С‹
 set(LIB_INCLUDE
    quad_eq.hpp
 )
 
-#Добавил исходники
+#Р”РѕР±Р°РІРёР» РёСЃС…РѕРґРЅРёРєРё
 set(LIB_SOURCE
    quad_eq.cpp
 )
 
-#Добавляю префиксы для указания верных путей при добавлении к библиотеке
+#Р”РѕР±Р°РІР»СЏСЋ РїСЂРµС„РёРєСЃС‹ РґР»СЏ СѓРєР°Р·Р°РЅРёСЏ РІРµСЂРЅС‹С… РїСѓС‚РµР№ РїСЂРё РґРѕР±Р°РІР»РµРЅРёРё Рє Р±РёР±Р»РёРѕС‚РµРєРµ
 list(TRANSFORM LIB_INCLUDE PREPEND "lib/include/")
 list(TRANSFORM LIB_SOURCE PREPEND "lib/source/")
 
-#Создаю библиотеку
+#РЎРѕР·РґР°СЋ Р±РёР±Р»РёРѕС‚РµРєСѓ
 add_library(QuadEqlib STATIC)
 
-#Добавляю исходники в библиотеку
+#Р”РѕР±Р°РІР»СЏСЋ РёСЃС…РѕРґРЅРёРєРё РІ Р±РёР±Р»РёРѕС‚РµРєСѓ
 target_sources(QuadEqlib PRIVATE
     ${LIB_INCLUDE}
     ${LIB_SOURCE})
 
-#Пути для компактного включения заголовочных файлов
+#РџСѓС‚Рё РґР»СЏ РєРѕРјРїР°РєС‚РЅРѕРіРѕ РІРєР»СЋС‡РµРЅРёСЏ Р·Р°РіРѕР»РѕРІРѕС‡РЅС‹С… С„Р°Р№Р»РѕРІ
 include_directories(QuadEqlib PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/lib/include
     ${CMAKE_CURRENT_SOURCE_DIR}/lib/source
 )
 
- #Включаю поддержку тестирования
+ #Р’РєР»СЋС‡Р°СЋ РїРѕРґРґРµСЂР¶РєСѓ С‚РµСЃС‚РёСЂРѕРІР°РЅРёСЏ
 enable_testing()
 
-#Добавляю исходники googletest-ов в проект
+#Р”РѕР±Р°РІР»СЏСЋ РёСЃС…РѕРґРЅРёРєРё googletest-РѕРІ РІ РїСЂРѕРµРєС‚
 add_subdirectory(googletest)
 
-#Создаю директорию для хранения исполняемого файла
+#РЎРѕР·РґР°СЋ РґРёСЂРµРєС‚РѕСЂРёСЋ РґР»СЏ С…СЂР°РЅРµРЅРёСЏ РёСЃРїРѕР»РЅСЏРµРјРѕРіРѕ С„Р°Р№Р»Р°
 file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/tests)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/tests)
 
-#Добавляю все файлы в проект
+#Р”РѕР±Р°РІР»СЏСЋ РІСЃРµ С„Р°Р№Р»С‹ РІ РїСЂРѕРµРєС‚
 set(TEST_SOURCE
     test_main.cpp
     test_quadEq.cpp
 )
 
-#Добавляю префикс "tests/" к исходникам для указания верного пути
+#Р”РѕР±Р°РІР»СЏСЋ РїСЂРµС„РёРєСЃ "tests/" Рє РёСЃС…РѕРґРЅРёРєР°Рј РґР»СЏ СѓРєР°Р·Р°РЅРёСЏ РІРµСЂРЅРѕРіРѕ РїСѓС‚Рё
 list(TRANSFORM TEST_SOURCE PREPEND "tests/")
 
-#Создаю исполняемый файл
+#РЎРѕР·РґР°СЋ РёСЃРїРѕР»РЅСЏРµРјС‹Р№ С„Р°Р№Р»
 add_executable(QuadEq_Tests
     ${TEST_SOURCE}
 )
 
-#Линкую проект со своей библиотекой и googletest
+#Р›РёРЅРєСѓСЋ РїСЂРѕРµРєС‚ СЃРѕ СЃРІРѕРµР№ Р±РёР±Р»РёРѕС‚РµРєРѕР№ Рё googletest
 target_link_libraries(QuadEq_Tests PRIVATE
     GTest::gtest_main
     QuadEqlib
 )
 
-#Сборка демо приложения
-#Создаю директорию для исполняемых файлов
+#РЎР±РѕСЂРєР° РґРµРјРѕ РїСЂРёР»РѕР¶РµРЅРёСЏ
+#РЎРѕР·РґР°СЋ РґРёСЂРµРєС‚РѕСЂРёСЋ РґР»СЏ РёСЃРїРѕР»РЅСЏРµРјС‹С… С„Р°Р№Р»РѕРІ
 file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/QuadEq)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY   ${CMAKE_CURRENT_BINARY_DIR}/QuadEq)
 
-#Добавляю исходники
+#Р”РѕР±Р°РІР»СЏСЋ РёСЃС…РѕРґРЅРёРєРё
 set(APP_SOURCE
     main.cpp
 )
 
-#Добавляю префиксык исходникам для указания верных путей
+#Р”РѕР±Р°РІР»СЏСЋ РїСЂРµС„РёРєСЃС‹Рє РёСЃС…РѕРґРЅРёРєР°Рј РґР»СЏ СѓРєР°Р·Р°РЅРёСЏ РІРµСЂРЅС‹С… РїСѓС‚РµР№
 list(TRANSFORM APP_INCLUDE PREPEND "app/include/")
 list(TRANSFORM APP_SOURCE PREPEND "app/source/")
 
-#Создаю исполняемый файл для графического приложения
+#РЎРѕР·РґР°СЋ РёСЃРїРѕР»РЅСЏРµРјС‹Р№ С„Р°Р№Р» РґР»СЏ РіСЂР°С„РёС‡РµСЃРєРѕРіРѕ РїСЂРёР»РѕР¶РµРЅРёСЏ
 add_executable(QuadEq
     ${APP_INCLUDE}
     ${APP_SOURCE}
 )
 
-#Пути для компактного включения заголовочных файлов
+#РџСѓС‚Рё РґР»СЏ РєРѕРјРїР°РєС‚РЅРѕРіРѕ РІРєР»СЋС‡РµРЅРёСЏ Р·Р°РіРѕР»РѕРІРѕС‡РЅС‹С… С„Р°Р№Р»РѕРІ
 include_directories(QuadEq PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/app/include
     ${CMAKE_CURRENT_SOURCE_DIR}/app/source
 )
 
-#Линкую библиотеки
+#Р›РёРЅРєСѓСЋ Р±РёР±Р»РёРѕС‚РµРєРё
 target_link_libraries(QuadEq PRIVATE
     QuadEqlib
 )

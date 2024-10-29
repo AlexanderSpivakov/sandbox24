@@ -8,8 +8,6 @@ TEST(QuadEquationTests, TwoSolutions)
 
 	EQStatus expectedStatus = { two, {6.0, 1.0} };
 
-	bool res = equationStatus == expectedStatus;
-
 	EXPECT_EQ(equationStatus, expectedStatus);
 }
 
