@@ -24,7 +24,7 @@
 			}
 			else
 			{
-				const double x = -b / c;
+				const double x = -c / b;
 				equationStatus.solState = same;
 				equationStatus.solution[0] = equationStatus.solution[1] = x;
 			}

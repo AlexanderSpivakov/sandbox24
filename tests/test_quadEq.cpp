@@ -16,7 +16,7 @@ TEST(QuadEquationTests, OneSolution)
 	std::array<double, 3> input = { 2.0, -8.0, 8.0 };
 	EQStatus equationStatus = SolveQuadEq(input);
 
-	EQStatus expectedStatus = { same, {-2.0, -2.0} };
+	EQStatus expectedStatus = { same, {2.0, 2.0} };
 
 	EXPECT_EQ(equationStatus, expectedStatus);
 }
