@@ -1,4 +1,5 @@
 #include <gtest/gtest.h>
+
 #include "quad_eq.hpp"
 
 TEST(QuadEquationTests, TwoSolutions)
