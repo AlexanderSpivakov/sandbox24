@@ -12,7 +12,7 @@ set(LIB_SOURCE
 list(TRANSFORM LIB_INCLUDE PREPEND "include/")
 list(TRANSFORM LIB_SOURCE PREPEND "source/")
 
-add_library(QuadEqlib STATIC
+add_library(QuadEqlib SHARED
     ${LIB_INCLUDE}
     ${LIB_SOURCE}
 )

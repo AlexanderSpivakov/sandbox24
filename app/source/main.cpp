@@ -1,17 +1,29 @@
 #include <iostream>
+#include <Windows.h>
+#include <array>
 
 #include "quad_eq.hpp"
+
+#undef max
+HINSTANCE hdll;
+EQStatus (*LibSolveFunc) (std::array<double, 3> arr);
 
 std::array<double, 3> GetInput();
 void PrintResult(EQStatus);
 
 int main()
 {
-	std::cout << "Hello, World!\n";
+	hdll = LoadLibrary("QuadEqLib");
+	if (!hdll)
+		return -1;
+	LibSolveFunc = (EQStatus(*) (std::array<double, 3> arr)) GetProcAddress(hdll, "SolveQuadEq");
 
+	std::cout << "Hello, World!\n";
 	std::array<double, 3> input = GetInput();
-	EQStatus equationStatus = SolveQuadEq(input);
+	EQStatus equationStatus = LibSolveFunc(input);
 	PrintResult(equationStatus);
+
+	FreeLibrary(hdll);
 } 
 
 std::array<double, 3> GetInput()
