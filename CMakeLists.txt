@@ -1,3 +1,3 @@
-cmake_minimum_required(VERSION 3.2.2)
-project(HelloWord)
-add_executable(hello main.cpp)
+ cmake_minimum_required(VERSION 3.5.1)
+project (QuadraticEquations)
+add_executable(quadraticequations main.cpp) 
