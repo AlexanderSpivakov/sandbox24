@@ -3,7 +3,8 @@
 
 #include "quad_eq.hpp"
 
- EQStatus SolveQuadEq(std::array<double, 3> input)
+extern "C" __declspec(dllexport)
+EQStatus __stdcall SolveQuadEq(std::array<double, 3> input)
 {
 	 EQStatus equationStatus{ none, (0, 0) };
 	 const double a = input[0], b = input[1], c = input[2];

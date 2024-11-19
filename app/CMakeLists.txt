@@ -18,6 +18,5 @@ add_executable(QuadEq
 )
 
 include_directories(QuadEq PRIVATE
-    ${CMAKE_CURRENT_SOURCE_DIR}/include
     ${CMAKE_CURRENT_SOURCE_DIR}/../lib/include
 )
