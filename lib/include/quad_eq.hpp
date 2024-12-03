@@ -1,8 +1,14 @@
 #pragma once
-
 #include <limits>
 #include <array>
-#include <Windows.h>
+
+#ifdef _WIN32
+	#define QUAD_EQ_EXPORT __declspec(dllexport)
+	#define STDCALL
+#else
+	#define QUAD_EQ_EXPORT
+	#define STDCALL
+#endif
 
 enum SolState { none, any, same, two };
 
@@ -17,5 +23,5 @@ struct EQStatus
 	}
 };
 
-extern "C" __declspec(dllexport)
-EQStatus __stdcall SolveQuadEq(std::array<double, 3>);
+extern "C" QUAD_EQ_EXPORT
+EQStatus STDCALL SolveQuadEq(std::array<double, 3>);
