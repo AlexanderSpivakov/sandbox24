@@ -2,6 +2,7 @@
 
 #include <limits>
 #include <array>
+#include <Windows.h>
 
 enum SolState { none, any, same, two };
 
@@ -16,4 +17,5 @@ struct EQStatus
 	}
 };
 
-EQStatus SolveQuadEq(std::array<double, 3>);
+extern "C" __declspec(dllexport)
+EQStatus __stdcall SolveQuadEq(std::array<double, 3>);
